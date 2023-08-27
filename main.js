@@ -107,14 +107,9 @@ client.on('messageCreate', message => {
         const race_interval = 1000;
         raceNumber++;
         let lastMessage = null;
+        let lastUpdate = null;
 
-        const names = [
-          'Rocky', 'Shellman', 'Speedy', 
-          'Bolt', 'Flash', 'Turbo', 'Rocket', 
-          'Zoom', 'Blaze', 'Jet', 'Comet', 'Lightning', 
-          'Rapido', 'Viento', 'Fugaz', 'Cósmico', 'Relâmpago', 
-          'Raio', 'Contella', 'Torbellino', 'Águila', 'Faísca'
-        ];
+        const names = ['Rocky', 'Shellman', 'Speedy', 'Bolt', 'Flash', 'Turbo', 'Rocket', 'Zoom', 'Blaze', 'Jet', 'Comet', 'Lightning', 'Rapido', 'Viento', 'Fugaz', 'Cósmico', 'Relâmpago', 'Raio', 'Contella', 'Torbellino', 'Águila', 'Faísca', 'Umi', 'Tora', 'Kaze', 'Hikari', 'Xingyun', 'Lóng', 'Zephyr', 'Qilin', 'Drakon', 'Vitez', 'Singa', 'Selamat', 'Lao', 'Raja'];
         const emojis = ['🟥', '🟦', '🟩', '🟨', '🟪', '🟫', '🟧', '⬛', '⬜'];
 
         // Shuffle array
@@ -137,9 +132,9 @@ client.on('messageCreate', message => {
         function randomMove() {
           const turtle_index = Math.floor(Math.random() * turtle_count); // select a random turtle
           const turtleStep = Math.ceil(Math.random() * 10); // set a random step count
-          const move = Math.random() > 0.5 ? turtleStep : -(Math.floor(turtleStep/3)); // move forward or backward
-
+          const move = Math.random() > 0.5 ? turtleStep : -(Math.floor(turtleStep / 3)); // move forward or backward
           turtles[turtle_index] = Math.max(0, turtles[turtle_index] + move);
+
           raceTime++;
 
           let turtlesPositions = turtles.map((turtle, index) => ({
@@ -152,41 +147,95 @@ client.on('messageCreate', message => {
           let positionsName = turtlesPositions.map(turtle => turtle.name.padEnd(12, '-'));
           let positionsPercentage = turtlesPositions.map(turtle => `${turtle.racePercentage}%`);
 
-          let positionsPercentageAsInt0 = parseInt(positionsPercentage[0])/5;
+          let positionsPercentageAsInt0 = parseInt(positionsPercentage[0]) / 5;
           let displayPositionString0 = '--------------------'.substring(0, 20 - positionsPercentageAsInt0) + '🐢' + '--------------------'.substring(20 - positionsPercentageAsInt0 + 1);
 
-          let positionsPercentageAsInt1 = parseInt(positionsPercentage[1])/5;
+          let positionsPercentageAsInt1 = parseInt(positionsPercentage[1]) / 5;
           let displayPositionString1 = '--------------------'.substring(0, 20 - positionsPercentageAsInt1) + '🐢' + '--------------------'.substring(20 - positionsPercentageAsInt1 + 1);
 
-          let positionsPercentageAsInt2 = parseInt(positionsPercentage[2])/5;
+          let positionsPercentageAsInt2 = parseInt(positionsPercentage[2]) / 5;
           let displayPositionString2 = '--------------------'.substring(0, 20 - positionsPercentageAsInt2) + '🐢' + '--------------------'.substring(20 - positionsPercentageAsInt2 + 1);
 
-          let positionsPercentageAsInt3 = parseInt(positionsPercentage[3])/5;
+          let positionsPercentageAsInt3 = parseInt(positionsPercentage[3]) / 5;
           let displayPositionString3 = '--------------------'.substring(0, 20 - positionsPercentageAsInt3) + '🐢' + '--------------------'.substring(20 - positionsPercentageAsInt3 + 1);
 
-          let positionsPercentageAsInt4 = parseInt(positionsPercentage[4])/5;
+          let positionsPercentageAsInt4 = parseInt(positionsPercentage[4]) / 5;
           let displayPositionString4 = '--------------------'.substring(0, 20 - positionsPercentageAsInt4) + '🐢' + '--------------------'.substring(20 - positionsPercentageAsInt4 + 1);
 
           if (raceTime % 2 === 0) {
 
-          let raceMessage = `\n
+            let raceMessage = `\n
 ${positionsName[0]} ${turtlesPositions[0].emoji} 🏁 ${displayPositionString0}
 ${positionsName[1]} ${turtlesPositions[1].emoji} 🏁 ${displayPositionString1}
 ${positionsName[2]} ${turtlesPositions[2].emoji} 🏁 ${displayPositionString2}
 ${positionsName[3]} ${turtlesPositions[3].emoji} 🏁 ${displayPositionString3}
 ${positionsName[4]} ${turtlesPositions[4].emoji} 🏁 ${displayPositionString4}
-            `;
+          `;
             if (lastMessage) {
               lastMessage.edit(raceMessage);
             } else {
               message.channel.send(raceMessage)
                 .then(msg => lastMessage = msg);
             }
+
+          }
+          if (raceTime === 1 || raceTime % 20 === 0) {
+            raceUpdate();
           }
 
           turtlesPositions.sort((a, b) => b.pos - a.pos);
-          let winMessage = `🍾 We have a winner! 🎉\n🐢 Turtle Race #${raceNumber}\n🥇 ${turtlesPositions[0].name} at ${turtlesPositions[0].racePercentage} complete\n🥈 ${turtlesPositions[1].name} at ${turtlesPositions[1].racePercentage} complete\n🥉 ${turtlesPositions[2].name} at ${turtlesPositions[2].racePercentage} complete\n😰 ${turtlesPositions[3].name} at ${turtlesPositions[3].racePercentage} complete\n😴 ${turtlesPositions[4].name} at ${turtlesPositions[4].racePercentage} complete`
+          let winMessage = `🍾 We have a winner! 🎉\n🐢 Turtle Race #${raceNumber}\n🥇 ${turtlesPositions[0].name}\n🥈 ${turtlesPositions[1].name}\n🥉 ${turtlesPositions[2].name}\n😰 ${turtlesPositions[3].name}\n😴 ${turtlesPositions[4].name}`
           return turtles[turtle_index] >= race_length ? winMessage : null; // if a turtle reaches or surpasses the race_length, it wins
+        }
+
+        function raceUpdate() {
+          let turtlesPositions = turtles.map((turtle, index) => ({
+            name: randomNames[index],
+            emoji: randomEmojis[index],
+            pos: turtle,
+            racePercentage: (turtle / race_length * 100).toFixed(0) // calculate race completion percentage
+          }));
+          let turtlesPositionsJSON = JSON.stringify(turtlesPositions.map(turtle => {
+            return {
+              name: turtle.name,
+              percentComplete: turtle.racePercentage
+            };
+          }));
+          let instructions = `The message delimited by ### is an update for a turtle race. The first turtle to percentComplete 100% wins. Very briefly describe the turtle race update with a random fact about the race track or a racer. ###\n${turtlesPositionsJSON}\n###`;
+          (async () => {
+            try {
+              const chatMessages = [
+                { "role": "system", "content": "You are a National Turtle Racing League sports commentator." },
+                ...raceMemory,
+                { "role": "user", "content": instructions }
+              ];
+              const completion = await openai.createChatCompletion({
+                model: "gpt-4",
+                messages: chatMessages,
+                temperature: 1.1,
+                max_tokens: 500,
+                presence_penalty: 0.5,
+                frequency_penalty: 0.2
+              });
+              const response = completion.data.choices[0].message.content;
+
+              if (lastUpdate) {
+                lastUpdate.edit(`🎙️ ${response}`);
+              } else {
+                message.channel.send(`🎙️ ${response}`)
+                  .then(msg => lastUpdate = msg);
+              }
+
+              if (raceMemory.length >= maxRaceMemory * 2) {
+                raceMemory.splice(0, 2);
+              }
+              raceMemory.push({ "role": "user", "content": instructions });
+              raceMemory.push({ "role": "assistant", "content": response });
+            } catch (e) {
+              console.log('error: ', e);
+              message.channel.send('🎙️ Oops, hang on one second... I thin.. can g.t...a.ah.***cchhhhhhhhhh***!');
+            }
+          })();
         }
 
         message.channel.send(`🐢 Turtle race #${raceNumber} has begun!`);
@@ -196,15 +245,43 @@ ${positionsName[4]} ${turtlesPositions[4].emoji} 🏁 ${displayPositionString4}
           const winner = randomMove();
           if (winner !== null) {
             message.channel.send(`\n${winner}`);
+            let raceResultsJSON = JSON.stringify(winner)
+            let finalMessage = `The message delimited by ### are the results of a turtle race. Very briefly describe the results. ###\n${raceResultsJSON}\n###`;
+
+            (async () => {
+              try {
+                const chatMessages = [
+                  { "role": "system", "content": "You are a National Turtle Racing League sports commentator." },
+                  ...raceMemory,
+                  { "role": "user", "content": finalMessage }
+                ];
+                const completion = await openai.createChatCompletion({
+                  model: "gpt-4",
+                  messages: chatMessages,
+                  temperature: 1.1,
+                  max_tokens: 500,
+                  presence_penalty: 0.5,
+                  frequency_penalty: 0.2
+                });
+                const response = completion.data.choices[0].message.content;
+
+                if (lastUpdate) {
+                  lastUpdate.edit(`🎙️ ${response}`);
+                } else {
+                  message.channel.send(`🎙️ ${response}`)
+                    .then(msg => lastUpdate = msg);
+                }
+
+              } catch (e) {
+                console.log('error: ', e);
+                message.channel.send('🎙️ Oops, hang on one second... I thin.. can g.t...a.ah.***cchhhhhhhhhh***!');
+              }
+            })();
             clearInterval(raceInterval);
             raceInProgress = false;
           }
         }, race_interval);
 
-        break;
-
-        case 'welcome':
-          message.channel.send({ embeds: [welcomeEmbed] });
         break;
       default:
         message.reply('There is only one command!');
@@ -212,14 +289,6 @@ ${positionsName[4]} ${turtlesPositions[4].emoji} 🏁 ${displayPositionString4}
     }
   }
 
-
-
 });
-
-const welcomeEmbed = new MessageEmbed()
-.setColor('#17a80b')
-.setTitle('Welcome to the Turtle Race!')
-.setAuthor({ name: 'jahhweh', iconURL: 'https://cdn.discordapp.com/attachments/1145141142082560012/1145146701057888266/jahhweh.gif' })
-.setDescription("Turtle Race has only 1 command: \n`!race` to start a turtle race \n\n🏁----------------🐢----------\n🏁--------------🐢------------\n🏁---------🐢-----------------\n🏁---------------------🐢-----\n🏁------🐢--------------------")
 
 client.login(process.env.DISCORD_BOT_TOKEN);
