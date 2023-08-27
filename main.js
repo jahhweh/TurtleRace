@@ -30,7 +30,7 @@ let raceInProgress = false;
 
 // start chatbot
 client.once('ready', async () => {
-  client.user.setActivity("strictly roots", { type: "PLAYING" })
+  client.user.setActivity("turtles race", { type: "WATCHING" })
   console.log('Bot is online');
 });
 
