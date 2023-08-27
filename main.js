@@ -28,6 +28,7 @@ let raceNumber = 0;
 let raceInProgress = false;
 const maxRaceMemory = 20;
 const raceMemory = [];
+const prefix = '!';
 
 // start chatbot
 client.once('ready', async () => {
