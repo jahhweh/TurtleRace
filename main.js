@@ -22,11 +22,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // setup chatbot variables
-const maxMemory = 6;
+const maxMemory = 2;
 const botMemory = [];
-const prefix = '!';
 let raceNumber = 0;
 let raceInProgress = false;
+const maxRaceMemory = 20;
+const raceMemory = [];
 
 // start chatbot
 client.once('ready', async () => {
