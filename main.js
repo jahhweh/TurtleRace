@@ -35,7 +35,6 @@ const client = new Client({
     "GUILD_MESSAGES",
     "GUILD_MEMBERS"
   ],
-  partials: ["MESSAGE"]
 });
 
 const openai = new OpenAI({
@@ -53,7 +52,8 @@ const botChannel = '1145140514107183136';
 
 // start chatbot
 client.once('ready', async () => {
-  client.user.setActivity("turtles race", { type: "WATCHING" })
+  client.user.setActivity("turtles race", { type: "WATCHING" });
+  console.log('bot is online')
 });
 
 // on message...
