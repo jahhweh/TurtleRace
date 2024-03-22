@@ -1,7 +1,7 @@
 {
 	"name": "turtlerace",
 	"author": "jahhweh",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "ISC",
 	"description": "gpt3, openai, discord",
 	"main": "main.js",
