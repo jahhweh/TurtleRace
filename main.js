@@ -1,11 +1,11 @@
 // Turtle Race!
 // !race to start a turtle race
 
-require('dotenv').config();
-import { Configuration, OpenAIApi } from "openai";
+import * as dotenv from 'dotenv';
+import { OpenAI } from 'openai';
 import { Client } from 'discord.js';
 
-// connect to discord
+dotenv.config();
 const client = new Client({
   intents: [
     "GUILDS",
@@ -14,8 +14,7 @@ const client = new Client({
   ],
 });
 
-// connect to OpenAI 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
