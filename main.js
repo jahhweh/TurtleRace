@@ -35,6 +35,7 @@ const client = new Client({
     "GUILD_MESSAGES",
     "GUILD_MEMBERS"
   ],
+  partials: ["MESSAGE"]
 });
 
 const openai = new OpenAI({
