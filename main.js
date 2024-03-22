@@ -2,11 +2,11 @@
 // !race to start a turtle race
 
 require('dotenv').config();
-const { Configuration, OpenAIApi } = require("openai");
-const Discord = require('discord.js');
+import { Configuration, OpenAIApi } from "openai";
+import { Client } from 'discord.js';
 
 // connect to discord
-const client = new Discord.Client({
+const client = new Client({
   intents: [
     "GUILDS",
     "GUILD_MESSAGES",
